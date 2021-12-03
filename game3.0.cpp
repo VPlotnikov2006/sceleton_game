@@ -1,6 +1,6 @@
 //Плотников
 #include "TXLib.h"
-#include "time.h"
+#include "time2.0.h"
 #include "background.h"
 #include "character.h"
 #include "functions.h"
@@ -36,16 +36,16 @@ int main()
         background.draw_background();
         main.draw_character();
 
-        main.update_character(background, &sit_time);
+        sit_time = main.update_character(background, sit_time);
         in_game_time.update_time(200);
         sit_time.update_time(200);
 
-        if(time_comp(sit_time, easter_egg_time))
+        if(sit_time >= easter_egg_time)
         {
             easter_egg(main);
             sit_time = {0,0,0,0};
         }
-        if(time_comp(in_game_time, end_game_time))
+        if(in_game_time >= end_game_time)
         {
             end_game(background,main);
             in_game_time = {0,0,0,0};
@@ -78,5 +78,6 @@ int main()
         background.put_to_file(save);
         in_game_time.put_to_file(save);
     }
+    txDisableAutoPause();
     return 0;
 }
