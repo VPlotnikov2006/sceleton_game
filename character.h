@@ -52,7 +52,7 @@ private:
     char* name;
 public:
     Character (const Character &ch);
-    Character operator=(Character ch);
+    Character& operator=(Character ch);
     ~Character();
     Character(FILE* f);
     double get_ypos();
@@ -299,7 +299,7 @@ public:
     ///     \brief      Сажает персонажа
     //}=====================================================================================================================
 
-    void update_character(bg_t &background, dt_t *sit_time, char imitate, bool checkcollision );
+    dt_t update_character(bg_t &background, dt_t sit_time, char imitate, bool checkcollision );
     //{=====================================================================================================================
     ///     \name       Обновление
     ///
@@ -416,7 +416,7 @@ Character::Character (const Character &ch) : //{
     load_image();
 }
 
-Character Character::operator=(Character ch)
+Character &Character::operator=(Character ch)
 {
     xpos = ch.xpos;
     ypos = ch.ypos;
@@ -676,7 +676,7 @@ void Character::do_sit()
     frame = 17;
 }
 
-void Character::update_character(bg_t &background, dt_t *sit_time, char imitate = '\0', bool checkcollision = 1)
+dt_t Character::update_character(bg_t &background, dt_t sit_time, char imitate = '\0', bool checkcollision = 1)
 {
     bool m = 1;
     if(GetAsyncKeyState('W') || imitate == 'w')//w
@@ -717,11 +717,9 @@ void Character::update_character(bg_t &background, dt_t *sit_time, char imitate 
     }
     else
     {
-        sit_time->milliseconds = 0;
-        sit_time->seconds = 0;
-        sit_time->minutes = 0;
-        sit_time->hours = 0;
+        sit_time = {0,0,0,0};
     }
+    return sit_time;
 }
 void Character::draw_character()
 {

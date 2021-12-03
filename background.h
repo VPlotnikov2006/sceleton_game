@@ -39,7 +39,7 @@ private:
     int nummax;
 public:
     Background (const Background &bg);
-    Background operator=(Background bg);
+    Background& operator=(Background bg);
     Background(FILE* f);
     ~Background();
     void delete_picture();
@@ -145,7 +145,7 @@ Background::Background (const Background &bg) : //{
     load_ground();
 }
 
-Background Background::operator=(Background bg)
+Background &Background::operator=(Background bg)
 {
     picture = nullptr;
     num = bg.num;

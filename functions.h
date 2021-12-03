@@ -32,18 +32,6 @@ void end_game(bg_t &background, ch_t &main);
 ///     \param  main        Структура главного героя
 //}=====================================================================================================================
 
-bool time_comp(dt_t t1, dt_t t2);
-//{=====================================================================================================================
-///     \name   Сравнение времен
-///
-///     \brief  Сравнивает два времени
-///
-///     \param  t1  Первое время
-///     \param  t2  Второе время
-///
-///     \return True если первое>=второе, иначе False
-//}=====================================================================================================================
-
 void rain();
 //{=====================================================================================================================
 ///     \name   Дождь
@@ -120,36 +108,12 @@ void end_game(bg_t &background, ch_t &main)
     dt_t time = {0,0,0,0};
     while (main.get_ypos() > -30)
     {
-        main.update_character(background, &time, 'w', 0);
+        main.update_character(background, time, 'w', 0);
         txClear();
         background.draw_background();
         main.draw_character();
         txSleep(40);
     }
-}
-
-bool time_comp(dt_t t1, dt_t t2)
-{
-    if(t1.hours > t2.hours)
-        return 1;
-    if (t1.hours < t2.hours)
-        return 0;
-
-    if(t1.minutes > t2.minutes)
-        return 1;
-    if (t1.minutes < t2.minutes)
-        return 0;
-
-    if(t1.seconds > t2.seconds)
-        return 1;
-    if (t1.seconds < t2.seconds)
-        return 0;
-
-    if(t1.milliseconds >= t2.milliseconds)
-        return 1;
-    if (t1.milliseconds < t2.milliseconds)
-        return 0;
-    return 0;
 }
 
 void rain()
