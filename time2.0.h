@@ -10,12 +10,12 @@
 ///    \defgroup    Movment     Движение
 //}=====================================================================================================================
 
-typedef class Dtime dt_t;
+typedef class Vtime dt_t;
 
 //Time
 //{=====================================================================================================================
 ///     \name   Структура десятичного времени
-class Dtime
+class Vtime
 {
 private:
     /// <= миллисекунды
@@ -27,25 +27,25 @@ private:
     /// <= часы
     int hours;
 public:
-    Dtime(int ms, int s, int m, int h)://{
+    Vtime(int ms, int s, int m, int h)://{
                                          milliseconds(ms),
                                          seconds(s),
                                          minutes(m),
                                          hours(h) //}
     {}
-    Dtime()://{
+    Vtime()://{
             milliseconds(0),
             seconds(0),
             minutes(0),
             hours(0) //}
     {}
-    Dtime(const Dtime &t)://{
+    Vtime(const Vtime &t)://{
                         milliseconds(t.milliseconds),
                         seconds(t.seconds),
                         minutes(t.minutes),
                         hours(t.hours) //}
     {}
-    Dtime& operator=(Dtime t)
+    Vtime& operator=(Vtime t)
     {
         milliseconds = t.milliseconds;
         seconds = t.seconds;
@@ -53,16 +53,16 @@ public:
         hours = t.hours;
         return *this;
     }
-    friend bool operator== (const Dtime &t1, const Dtime &t2)
+    friend bool operator== (const Vtime &t1, const Vtime &t2)
     {
         return (t1.milliseconds == t2.milliseconds) && (t1.seconds == t2.seconds) &&
                (t1.minutes == t2.minutes) && (t1.hours == t2.hours);
     }
-    friend bool operator!= (const Dtime &t1, const Dtime &t2)
+    friend bool operator!= (const Vtime &t1, const Vtime &t2)
     {
         return !(t1 == t2);
     }
-    friend bool operator< (const Dtime &t1, const Dtime &t2)
+    friend bool operator< (const Vtime &t1, const Vtime &t2)
     {
         if(t1.hours < t2.hours)
             return 1;
@@ -83,15 +83,15 @@ public:
             return 1;
         return 0;
     }
-    friend bool operator> (const Dtime &t1, const Dtime &t2)
+    friend bool operator> (const Vtime &t1, const Vtime &t2)
     {
         return !(t1 < t2 || t1 == t2);
     }
-    friend bool operator>= (const Dtime &t1, const Dtime &t2)
+    friend bool operator>= (const Vtime &t1, const Vtime &t2)
     {
         return (t1 > t2 || t1 == t2);
     }
-    friend bool operator<= (const Dtime &t1, const Dtime &t2)
+    friend bool operator<= (const Vtime &t1, const Vtime &t2)
     {
         return (t1 < t2 || t1 == t2);
     }
@@ -139,12 +139,12 @@ public:
 //Initialization
 //Time
 //{=====================================================================================================================
-void Dtime::put_to_file(FILE* f)
+void Vtime::put_to_file(FILE* f)
 {
     fprintf(f,"%d %d %d %d\n",milliseconds * 8677, seconds * 4079, minutes * 7193, hours * 2503);
 }
 
-void Dtime::get_from_file(FILE* f)
+void Vtime::get_from_file(FILE* f)
 {
     int mi,s,m,h;
     bool cheat = 0;
@@ -180,15 +180,15 @@ void Dtime::get_from_file(FILE* f)
     }
 }
 
-void Dtime::update_time(int t)
+void Vtime::update_time(int t)
 {
     milliseconds += t;
     seconds += milliseconds / 1000;
-    minutes += seconds / 100;
-    hours += minutes / 100;
+    minutes += seconds / 60;
+    hours += minutes / 60;
     milliseconds %= 1000;
-    seconds %= 100;
-    minutes %= 100;
+    seconds %= 60;
+    minutes %= 60;
 }
 //}=====================================================================================================================
 #endif

@@ -73,14 +73,16 @@ void fcheck(char* s)
 
 void end_game(bg_t &background, ch_t &main)
 {
+    bot_t bot(main.get_xpos(), main.get_ypos(), 1);
     main.turn_down();
     main.set_frame(1);
     txClear();
     background.draw_background();
     main.draw_character();
     main.set_frame(18);
-    txSleep(1000);
     txPlaySound("thunder.wav");
+    txSleep(1000);
+
     for (int i = 0; i < 5; i++)
     {
         txSleep(50);
@@ -93,25 +95,16 @@ void end_game(bg_t &background, ch_t &main)
         background.draw_background();
         main.draw_character();
     }
-    main.set_name("ghost.bmp");
-    main.delete_picture();
-    main.load_image();
-    main.set_frame(1);
-    main.turn_up();
-    main.set_xsize(16);
-    main.set_ysize(24);
-    main.set_scale(1);
-    main.set_framesn(3);
     txClear();
     background.draw_background();
-    main.draw_character();
+    bot.draw();
     dt_t time = {0,0,0,0};
-    while (main.get_ypos() > -30)
+    while (bot.move_forward())
     {
-        main.update_character(background, time, 'w', 0);
+
         txClear();
         background.draw_background();
-        main.draw_character();
+        bot.draw();
         txSleep(40);
     }
 }
@@ -136,10 +129,8 @@ void easter_egg(ch_t &main)
     txPlaySound("Hello_darknes_my_old_friend.wav");
     for (double j = 250; j >= 100 && i < 33.5 && !GetAsyncKeyState(VK_ESCAPE); j -= 0.5, i += di )
     {
-        if (j>240)
-            txGetFPS();
-        else
-            di = 1 / txGetFPS();txSetFillColor(TX_WHITE);
+        di = 1 / (txGetFPS(1) + 5);
+        txSetFillColor(TX_WHITE);
         txClear();
         txSetColor(RGB(j,j,j));
         txSetFillColor(RGB(j,j,j));
