@@ -98,7 +98,6 @@ void end_game(bg_t &background, ch_t &main)
     txClear();
     background.draw_background();
     bot.draw();
-    dt_t time = {0,0,0,0};
     while (bot.move_forward())
     {
 

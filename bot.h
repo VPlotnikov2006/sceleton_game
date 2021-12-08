@@ -102,7 +102,7 @@ public:
           direction(d),
           frame(1),
           scale(1),
-          step(1),
+          step(5),
           framesn(1),
           name("ghost.bmp")//}
     {
@@ -118,7 +118,7 @@ public:
           direction(1),
           frame(1),
           scale(1),
-          step(1),
+          step(5),
           framesn(1),
           name("ghost.bmp")//}
     {

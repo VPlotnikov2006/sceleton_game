@@ -39,6 +39,14 @@ public:
             minutes(0),
             hours(0) //}
     {}
+    Vtime(FILE* f)://{
+            milliseconds(0),
+            seconds(0),
+            minutes(0),
+            hours(0) //}
+    {
+        get_from_file(f);
+    }
     Vtime(const Vtime &t)://{
                         milliseconds(t.milliseconds),
                         seconds(t.seconds),
