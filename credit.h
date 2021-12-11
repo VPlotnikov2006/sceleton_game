@@ -1,19 +1,16 @@
-#include <TXLib.h>
-#include <time.h>
-
 #ifndef __VOVACREDIT__
 #define __VOVACREDIT__
+#include <time.h>
 
 void credit(char *str, int scale, int r = 255, int g = 255, int b = 255)
 {
     txSetFillColor(TX_BLACK);
-    txSelectFont("Times New Roman", scale);
+    txSelectFont("venom", scale);
     txSetTextAlign(TA_CENTER);
     int xsize = txGetTextExtentX(str);
     int ysize = txGetTextExtentY(str);
     while (!GetAsyncKeyState(VK_LBUTTON))
     {
-
         txClear();
         txSetColor(RGB(r,g,b));
         txTextOut(540,360 - ysize / 2,str);

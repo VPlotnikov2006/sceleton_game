@@ -16,13 +16,14 @@ int main()
     FILE* save = fopen("save.txt","r");
 
     //Начальные титры
-    credit("Через час меня казнят", 50);
-    credit("Очевидно что я не виновен", 50);
-    credit("Остается только пытаться искать выход", 50);
-    credit("ЕСЛИ ОН ЕСТЬ", 150,255,0,0);
+
+    credit("I will be executed in an hour", 48);
+    credit("I guess I have to look for a way out", 48);
+    credit("IF IT EXISTS", 72,255,0,0);
 
     //Экран загрузки
     loading();
+    txPlaySound("bgsound.wav",SND_LOOP);
 
     bool gsave;
     ch_t main(save);
