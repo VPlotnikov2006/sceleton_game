@@ -5,7 +5,7 @@
 #include "character.h"
 #include "bot.h"
 #include "functions.h"
-#include "credit.h"
+#include "button.h"
 
 
 int main()
@@ -13,33 +13,27 @@ int main()
     fcheck("save.txt");
 
     txCreateWindow(1080, 720);
+    txDisableAutoPause();
     FILE* save = fopen("save.txt","r");
 
-    //Начальные титры
-
-    credit("I will be executed in an hour", 48);
-    credit("I guess I have to look for a way out", 48);
-    credit("IF IT EXISTS", 72,255,0,0);
-
-    //Экран загрузки
     loading();
-    txPlaySound("bgsound.wav",SND_LOOP);
 
-    bool gsave;
+
+    bool gsave = 0;
+    int action;
+    int dt;
+    bot_t bot(-100,-100,1);
     ch_t main(save);
     bg_t background(save);
-    //time
-    //{
     dt_t in_game_time(save);
     dt_t sit_time = {0,0,0,0};
     dt_t end_game_time = {0,0,0,1};
     dt_t easter_egg_time = {0,0,5,0};
-    //}
-    fclose(save);
 
+    fclose(save);
     txBegin();
-    int dt;
-    bot_t bot(-100,-100,1);
+
+    txPlaySound("bgsound.wav",SND_LOOP);
     while(true)
     {
 
@@ -64,7 +58,6 @@ int main()
         {
             end_game(background, main);
             in_game_time = {0,0,0,0};
-            gsave = 0;
             remove("save.txt");
             break;
         }
@@ -75,29 +68,37 @@ int main()
             bot.sety(rand() % 720);
             bot.setd(rand() % 4 + 1);
         }
-        txSleep(100);
 
         if(GetAsyncKeyState(VK_ESCAPE))
         {
-            gsave = 1;
-            break;
+            txSelectFont ("Times New Roman", 60);
+            action = settings();
+            while (action != 4)
+            {
+                if (action == 1)
+                {
+                    loading();
+                    game_save(background, main, in_game_time);
+                    gsave = 1;
+                }
+                if (action == 2)
+                {
+                    if (gsave)
+                        return 0;
+                    if (txMessageBox("Ваш прогресс не сохранен\nЖелаете продолжить?","Нет сохранения") == 1)
+                        return 0;
+                }
+                if (action == 3)
+                {
+                    txMessageBox("w - вперед\na - влево\ns - назад\nd - вправо", "Управление");
+                }
+                action = settings();
+            }
+            gsave = 0;
         }
 
-        if(GetAsyncKeyState(VK_F2) && GetAsyncKeyState(VK_SHIFT))
-        {
-            gsave = 0;
-            break;
-        }
+        txSleep(100);
     }
     txEnd();
-
-    if (gsave)
-    {
-        save = fopen("save.txt", "w");
-        main.put_to_file(save);
-        background.put_to_file(save);
-        in_game_time.put_to_file(save);
-    }
-    txDisableAutoPause();
     return 0;
 }
